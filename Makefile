@@ -8,8 +8,10 @@ help:
 	@echo "make down            - Stop containers"
 	@echo "make restart         - Restart containers"
 	@echo "make logs            - View logs"
+	@echo "make logs-backend    - View backend logs"
+	@echo "make logs-frontend   - View frontend logs"
 	@echo "make shell           - Access Django shell"
-	@echo "make bash            - Access container bash"
+	@echo "make bash            - Access backend container bash"
 	@echo "make migrate         - Run database migrations"
 	@echo "make makemigrations  - Create new migrations"
 	@echo "make createsuperuser - Create Django superuser"
@@ -33,26 +35,32 @@ restart:
 logs:
 	docker compose logs -f
 
+logs-backend:
+	docker compose logs -f backend
+
+logs-frontend:
+	docker compose logs -f frontend
+
 shell:
-	docker compose exec web python manage.py shell
+	docker compose exec backend python manage.py shell
 
 bash:
-	docker compose exec web bash
+	docker compose exec backend bash
 
 migrate:
-	docker compose exec web python3 manage.py migrate
+	docker compose exec backend python manage.py migrate
 
 makemigrations:
-	docker compose exec web python3 manage.py makemigrations
+	docker compose exec backend python manage.py makemigrations
 
 createsuperuser:
-	docker compose exec web python3 manage.py createsuperuser
+	docker compose exec backend python manage.py createsuperuser
 
 test:
-	docker compose exec web python manage.py test
+	docker compose exec backend python manage.py test
 
 collectstatic:
-	docker compose exec web python manage.py collectstatic --noinput
+	docker compose exec backend python manage.py collectstatic --noinput
 
 clean:
 	docker compose down -v
